@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package crowdfunding;
+
+import "google/protobuf/empty.proto";
+
+import "project.proto";
+import "user.proto";
+
+
+
+// Definition for the ProjectMember entity
+message ProjectMember {
+  int32 id = 1;
+  int32 project_id = 2;
+  int32 user_id = 3;
+}
+
+// RPC service definition for project-related events
+service ProjectService {
+  // Event triggered when a new project is created
+  rpc ProjectCreated(Project) returns (google.protobuf.Empty) {}
+
+  // Event triggered when a project is updated
+  rpc ProjectUpdated(Project) returns (google.protobuf.Empty) {}
+
+  // Event triggered when a new user is added to a project
+  rpc UserAddedToProject(ProjectMember) returns (google.protobuf.Empty) {}
+}

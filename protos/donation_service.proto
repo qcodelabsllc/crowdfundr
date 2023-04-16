@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package crowdfunding;
+import "google/protobuf/empty.proto";
+import "donation.proto";
+import "disbursement.proto";
+
+// RPC service definition for donation-related events
+service DonationService {
+  // Event triggered when a new donation is made
+  rpc DonationMade(Donation) returns (google.protobuf.Empty) {}
+
+  // Event triggered when funds are disbursed for a project
+  rpc FundsDisbursed(Disbursement) returns (google.protobuf.Empty) {}
+}
