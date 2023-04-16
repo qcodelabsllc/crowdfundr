@@ -1,13 +1,11 @@
 syntax = "proto3";
 
 package crowdfunding;
+option go_package = "github.com/qcodelabsllc/crowdfundr";
 
 import "google/protobuf/empty.proto";
 
 import "project.proto";
-import "user.proto";
-
-
 
 // Definition for the ProjectMember entity
 message ProjectMember {
