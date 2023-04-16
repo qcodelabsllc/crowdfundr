@@ -4,8 +4,8 @@ CREATE TABLE users
     username   VARCHAR(50) UNIQUE  NOT NULL,
     email      VARCHAR(255) UNIQUE NOT NULL,
     password   VARCHAR(255)        NOT NULL,
-    created_at TIMESTAMP           NOT NULL,
-    updated_at TIMESTAMP           NOT NULL
+    created_at TIMESTAMP           DEFAULT now() NOT NULL,
+    updated_at TIMESTAMP           DEFAULT now() NOT NULL
 );
 
 CREATE TABLE projects
@@ -159,4 +159,8 @@ CREATE TRIGGER update_project_amount_disbursed_trigger
     FOR EACH ROW
 EXECUTE FUNCTION update_project_amount_disbursed();
 
+alter user crowdfundr with password 'crowdfundr';
+
+--  grant all privileges on all tables in schema to crowdfundr
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA crowdfundr_schema TO crowdfundr;
 

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+	"github.com/jackc/pgx/v4"
 	"github.com/joho/godotenv"
 	"github.com/qcodelabsllc/crowdfundr/core/config"
 	"log"
@@ -14,6 +16,9 @@ func main() {
 
 	// initialize database connection
 	config.InitDatabase()
+	defer func(CoreDb *pgx.Conn) {
+		_ = CoreDb.Close(context.Background())
+	}(config.CoreDb)
 
 	// start gRPC server
 	config.StartServer()

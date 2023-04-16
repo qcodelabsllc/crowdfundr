@@ -40,11 +40,6 @@ func InitDatabase() {
 		pgConn = conn
 	}
 
-	// Close connection when function exits
-	defer func(conn *pgx.Conn, ctx context.Context) {
-		_ = conn.Close(ctx)
-	}(pgConn, context.Background())
-
 	// Check if connection was successful
 	if err := pgConn.Ping(context.Background()); err != nil {
 		log.Fatal("unable to ping database")

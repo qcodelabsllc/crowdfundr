@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package crowdfunding;
+option go_package = "github.com/qcodelabsllc/crowdfundr";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+import "user.proto";
+
+// Definition for the User entity
+service UserService {
+  // create a new user using create_user
+  rpc CreateUser(CreateUserRequest) returns (User);
+
+  // get a user by id
+  rpc GetUser(google.protobuf.StringValue) returns (User);
+
+  // get a user by email
+  rpc GetUserByEmail(google.protobuf.StringValue) returns (User);
+
+  // update user
+  rpc UpdateUser(User) returns (User);
+
+  // delete user
+  rpc DeleteUser(google.protobuf.StringValue) returns (google.protobuf.Empty);
+}
+
+message CreateUserRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}

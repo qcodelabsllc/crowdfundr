@@ -3,8 +3,6 @@ syntax = "proto3";
 package crowdfunding;
 option go_package = "github.com/qcodelabsllc/crowdfundr";
 
-import "google/protobuf/timestamp.proto";
-
 // Definition for the Project entity
 message Project {
   string id = 1;
@@ -16,7 +14,7 @@ message Project {
   string status = 7;
   int32 backers = 8;
   string user_id = 9;
-  google.protobuf.Timestamp created_at = 10;
-  google.protobuf.Timestamp updated_at = 11;
+  string created_at = 10;
+  string updated_at = 11;
   string category_id = 12;
 }
