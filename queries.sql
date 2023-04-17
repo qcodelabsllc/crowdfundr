@@ -1,11 +1,11 @@
 CREATE TABLE users
 (
     id         uuid PRIMARY KEY,
-    username   VARCHAR(50) UNIQUE  NOT NULL,
-    email      VARCHAR(255) UNIQUE NOT NULL,
-    password   VARCHAR(255)        NOT NULL,
-    created_at TIMESTAMP           DEFAULT now() NOT NULL,
-    updated_at TIMESTAMP           DEFAULT now() NOT NULL
+    username   VARCHAR(50) UNIQUE      NOT NULL,
+    email      VARCHAR(255) UNIQUE     NOT NULL,
+    password   VARCHAR(255)            NOT NULL,
+    created_at TIMESTAMP DEFAULT now() NOT NULL,
+    updated_at TIMESTAMP DEFAULT now() NOT NULL
 );
 
 CREATE TABLE projects
@@ -36,10 +36,10 @@ CREATE TABLE donations
 CREATE TABLE project_members
 (
     id         uuid PRIMARY KEY,
-    user_id    uuid           NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-    project_id uuid           NOT NULL REFERENCES projects (id) ON DELETE CASCADE,
-    created_at TIMESTAMP      NOT NULL,
-    updated_at TIMESTAMP      NOT NULL
+    user_id    uuid      NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    project_id uuid      NOT NULL REFERENCES projects (id) ON DELETE CASCADE,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
 );
 
 CREATE TABLE disbursements
@@ -52,9 +52,12 @@ CREATE TABLE disbursements
 );
 
 -- alter projects table to include status & amount_disbursed
-ALTER TABLE projects ADD COLUMN status VARCHAR(50) NOT NULL DEFAULT 'pending';
-ALTER TABLE projects ADD COLUMN amount_disbursed DECIMAL(10, 2) DEFAULT 0.00;
-ALTER TABLE projects ADD COLUMN backers INT DEFAULT 0;
+ALTER TABLE projects
+    ADD COLUMN status VARCHAR(50) NOT NULL DEFAULT 'pending';
+ALTER TABLE projects
+    ADD COLUMN amount_disbursed DECIMAL(10, 2) DEFAULT 0.00;
+ALTER TABLE projects
+    ADD COLUMN backers INT DEFAULT 0;
 
 -- indexes on users table
 CREATE INDEX users_username_idx ON users (username);
@@ -76,9 +79,11 @@ CREATE INDEX disbursements_project_id_idx ON disbursements (project_id);
 
 -- create function to update project amount raised
 CREATE OR REPLACE FUNCTION update_project_amount_raised()
-    RETURNS TRIGGER AS $$
+    RETURNS TRIGGER AS
+$$
 BEGIN
-    UPDATE projects SET amount_raised = amount_raised + NEW.amount
+    UPDATE projects
+    SET amount_raised = amount_raised + NEW.amount
     WHERE id = NEW.project_id;
     RETURN NEW;
 END;
@@ -86,16 +91,18 @@ $$ LANGUAGE plpgsql;
 
 -- create trigger to call update_project_amount_raised function
 CREATE TRIGGER update_project_amount_raised_trigger
-    AFTER INSERT ON donations
+    AFTER INSERT
+    ON donations
     FOR EACH ROW
 EXECUTE FUNCTION update_project_amount_raised();
 
 -- create function to update project status
 CREATE OR REPLACE FUNCTION update_project_status()
-    RETURNS TRIGGER AS $$
+    RETURNS TRIGGER AS
+$$
 DECLARE
     total_amount_raised NUMERIC;
-    project_goal NUMERIC;
+    project_goal        NUMERIC;
 BEGIN
     SELECT SUM(amount) INTO total_amount_raised FROM donations WHERE project_id = NEW.id;
     SELECT goal_amount INTO project_goal FROM projects WHERE id = NEW.id;
@@ -110,13 +117,15 @@ $$ LANGUAGE plpgsql;
 
 -- create trigger to call update_project_status function
 CREATE TRIGGER update_project_status_trigger
-    AFTER INSERT ON donations
+    AFTER INSERT
+    ON donations
     FOR EACH ROW
 EXECUTE FUNCTION update_project_status();
 
 -- create function to update project backers
 CREATE OR REPLACE FUNCTION update_project_backers()
-    RETURNS TRIGGER AS $$
+    RETURNS TRIGGER AS
+$$
 BEGIN
     UPDATE projects SET backers = backers + 1 WHERE id = NEW.project_id;
     RETURN NEW;
@@ -125,13 +134,15 @@ $$ LANGUAGE plpgsql;
 
 -- create trigger to call update_project_backers function
 CREATE TRIGGER update_project_backers_trigger
-    AFTER INSERT ON project_members
+    AFTER INSERT
+    ON project_members
     FOR EACH ROW
 EXECUTE FUNCTION update_project_backers();
 
 -- create function to update project amount disbursed
 CREATE OR REPLACE FUNCTION disburse_funds()
-    RETURNS TRIGGER AS $$
+    RETURNS TRIGGER AS
+$$
 BEGIN
     UPDATE projects SET amount_disbursed = amount_disbursed + NEW.amount WHERE id = NEW.project_id;
     RETURN NEW;
@@ -140,13 +151,15 @@ $$ LANGUAGE plpgsql;
 
 -- create trigger to call disburse_funds function
 CREATE TRIGGER disburse_funds_trigger
-    AFTER INSERT ON disbursements
+    AFTER INSERT
+    ON disbursements
     FOR EACH ROW
 EXECUTE FUNCTION disburse_funds();
 
 -- create function to update project amount disbursed
 CREATE OR REPLACE FUNCTION update_project_amount_disbursed()
-    RETURNS TRIGGER AS $$
+    RETURNS TRIGGER AS
+$$
 BEGIN
     UPDATE projects SET amount_disbursed = amount_disbursed - OLD.amount WHERE id = OLD.project_id;
     RETURN NEW;
@@ -155,7 +168,8 @@ $$ LANGUAGE plpgsql;
 
 -- create trigger to call update_project_amount_disbursed function
 CREATE TRIGGER update_project_amount_disbursed_trigger
-    AFTER UPDATE ON disbursements
+    AFTER UPDATE
+    ON disbursements
     FOR EACH ROW
 EXECUTE FUNCTION update_project_amount_disbursed();
 
@@ -164,3 +178,17 @@ alter user crowdfundr with password 'crowdfundr';
 --  grant all privileges on all tables in schema to crowdfundr
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA crowdfundr_schema TO crowdfundr;
 
+-- delete a user by id
+DELETE
+FROM users
+WHERE id = 'd0f1c0a0-1b1a-4b1c-9c1d-1e1f1f1f1f1f';
+
+-- update user by id
+UPDATE users
+SET username = 'new_username'
+WHERE id = 'd0f1c0a0-1b1a-4b1c-9c1d-1e1f1f1f1f1f';
+
+-- get user by email
+SELECT id, email, username, created_at
+FROM users
+WHERE email = 'qcodelabsllc@gmail.com';
