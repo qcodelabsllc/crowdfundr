@@ -1,15 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mobile/core/di/injector.dart';
 import 'package:shared_utils/shared_utils.dart';
 
 import 'core/app.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+/// run the app in a zone to catch errors
+void main() async => runZonedGuarded(() async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-  // init dependencies here
+      // init dependencies here
+      await configureDependencies();
 
-  runZonedGuarded(
-      () => runApp(const CrowdfundrApp()), (error, stack) => logger.e(error));
-}
+      // run the app
+      runApp(const CrowdfundrApp());
+    }, (error, stack) => logger.e(error));

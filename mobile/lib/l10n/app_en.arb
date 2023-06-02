@@ -1,7 +1,7 @@
 {
   "appName": "Crowdfundr",
-  "appDescLong": "",
-  "appDescShort": "",
+  "appDescLong": "Crowdfundr is a social crowdfunding platform that allows you to raise funds for your projects and ideas",
+  "appDescShort": "Crowdfundr is a social crowdfunding platform",
   "appDevTeam": "Designed & developed by qcodelabsllc 🚀",
   "disclaimer": "By using this app, you agree to our terms of service and privacy policy",
   "underDevelopment": "Coming soon to your device 🚀",
@@ -55,6 +55,7 @@
   "termOfUseSubhead": "By continuing, you agree to our Terms of Use and Privacy Policy",
   "needHelp": "Need help?",
   "orText": "or",
+  "signInLater" : "Just exploring? Sign in later",
   "signInWithGoogle": "Sign in with Google",
   "signInWithApple": "Sign in with Apple",
   "signInWithTwitter": "Sign in with Twitter",

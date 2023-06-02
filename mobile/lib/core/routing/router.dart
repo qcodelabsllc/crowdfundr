@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/utils/extensions.dart';
-import 'package:mobile/features/shared/presentation/pages/tutorial.dart';
+import 'package:mobile/features/common/presentation/pages/tutorial.dart';
 import 'package:mobile/generated/assets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_utils/shared_utils.dart';

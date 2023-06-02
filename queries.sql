@@ -61,8 +61,8 @@ ALTER TABLE projects
     ALTER COLUMN updated_at SET DEFAULT now();
 
 -- alter the projects table to add a foreign key to the categories table
-ALTER TABLE projects
-    ADD CONSTRAINT projects_category_fkey FOREIGN KEY (category) REFERENCES categories (id);
+-- ALTER TABLE projects
+--     ADD CONSTRAINT projects_category_fkey FOREIGN KEY (category) REFERENCES categories (id);
 
 -- indexes on users table
 CREATE INDEX users_username_idx ON users (username);
@@ -478,17 +478,17 @@ END;
 $$;
 
 -- create a procedure to create a category
-CREATE OR REPLACE PROCEDURE create_category(
-    category_name VARCHAR
-)
-    LANGUAGE plpgsql
-AS
-$$
-BEGIN
-    INSERT INTO categories (name)
-    VALUES (category_name);
-END;
-$$;
+-- CREATE OR REPLACE PROCEDURE create_category(
+--     category_name VARCHAR
+-- )
+--     LANGUAGE plpgsql
+-- AS
+-- $$
+-- BEGIN
+--     INSERT INTO categories (name)
+--     VALUES (category_name);
+-- END;
+-- $$;
 
 -- create a procedure to create a new user by email, username and password
 CREATE OR REPLACE PROCEDURE create_user(
