@@ -1,0 +1,115 @@
+name: mobile
+description: A crowdfunding mobile application.
+
+publish_to: 'none'
+version: 0.0.1+alpha-1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  google_fonts: ^4.0.3
+  flutter_staggered_animations: ^1.1.1
+  intl: any
+  flutter_staggered_grid_view: ^0.6.2
+  tabler_icons: ^2.5.0+1
+  bloc: ^8.1.1
+  flutter_bloc: ^8.1.2
+  injectable: ^2.1.1
+  get_it: ^7.2.0
+  modal_bottom_sheet: ^3.0.0-pre
+  flutter_secure_storage:
+  device_info_plus: ^9.0.2
+  local_auth: ^2.1.6
+  flutter_dotenv: ^5.0.2
+  url_launcher: ^6.1.10
+  animated_bottom_navigation_bar: ^1.2.0
+  copy_with_extension: ^5.0.2
+  uuid: ^3.0.7
+  badges: ^3.1.1
+  heroicons: ^0.8.0
+  flutter_jailbreak_detection: ^1.10.0
+  dotted_border: ^2.0.0+3
+  connectivity_plus: ^4.0.1
+  cached_network_image: ^3.2.3
+  hive_flutter: ^2.0.0-dev
+  lottie:
+  share_plus: ^7.0.1
+  envied: ^0.3.0+3
+  flutter_svg:
+  tinycolor2: ^3.0.1
+  sentry_flutter: ^7.6.1
+  package_info_plus: ^4.0.1
+  grpc: ^3.1.0
+  protobuf: ^2.1.0
+  protobuf_google: ^0.0.1
+  shared_utils:
+    git:
+      url: https://github.com/quabynah-bilson/shared_utils.git
+      ref: main
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  build_runner: ^2.4.4
+  injectable_generator: ^2.1.5
+  flutter_launcher_icons: ^0.13.0
+  flutter_native_splash:
+  mocktail: ^0.3.0
+  change_app_package_name: ^1.1.0
+  envied_generator: ^0.3.0+3
+  copy_with_extension_gen:
+  lints: ^2.0.0
+
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/img/
+    - assets/anim/
+    - assets/brand/
+
+# dart run flutter_launcher_icons
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/img/app_logo.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/img/app_logo.png"
+    background_color: "#FFE7AB"
+    theme_color: "#FFE7AB"
+  windows:
+    generate: true
+    image_path: "assets/img/app_logo.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/img/app_logo.png"
+
+# dart run flutter_native_splash:create
+flutter_native_splash:
+  image: assets/img/app_logo.png
+  image_dark: assets/img/app_logo.png
+  icon_background_color: "#ffffff"
+  color: "#ffffff"
+  color_dark: "#313338"
+  icon_background_color_dark: "#313338"
+  web: false
+  web_image_mode: contain
+  android_12:
+    image: assets/img/app_logo.png
+    color: "#ffffff"
+    icon_background_color: "#ffffff"
+    icon_background_color_dark: "#ffffff"
+    color_dark: "#ffffff"
+    image_dark: assets/img/app_logo.png
