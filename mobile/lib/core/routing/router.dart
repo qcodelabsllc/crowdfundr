@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/utils/extensions.dart';
 import 'package:mobile/features/common/presentation/pages/tutorial.dart';
+import 'package:mobile/features/crowdfundr/presentation/pages/home.dart';
 import 'package:mobile/generated/assets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_utils/shared_utils.dart';
@@ -17,9 +18,9 @@ final class AppRouterConfig {
       // case AppRouter.noInternetRoute:
       //   return MaterialWithModalsPageRoute(
       //       builder: (_) => const NoInternetPage(), settings: settings);
-      // case AppRouter.homeRoute:
-      //   return MaterialWithModalsPageRoute(
-      //       builder: (_) => const HomePage(), settings: settings);
+      case AppRouter.homeRoute:
+        return MaterialWithModalsPageRoute(
+            builder: (_) => const HomePage(), settings: settings);
       // case AppRouter.phoneVerificationRoute:
       //   return MaterialWithModalsPageRoute(
       //       builder: (_) => PhoneNumberVerificationPage(
@@ -66,7 +67,8 @@ final class AppRouterConfig {
                 builder: (context) => AnimatedColumn(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Assets.imgAppLogo.asAssetImage(size: context.width * 0.25),
+                    Assets.imgAppLogo.asAssetImage(
+                        size: context.width * 0.3, fit: BoxFit.contain),
                     const CircularProgressIndicator.adaptive().top(40),
                   ],
                 ).centered(),
@@ -85,10 +87,12 @@ sealed class AppRouter {
   static const signInWithRoute = '/auth/sign-in';
   static const resetPasswordRoute = '/auth/sign-in/reset-password';
   static const phoneVerificationRoute = '/auth/phone-verification';
+  static const projectDetailsRoute = '/projects/details'; // todo
+  static const donateRoute = '/donations/project'; // todo
   static const editProfileRoute = '/edit-profile'; // todo
   static const profileRoute = '/profile'; // todo
   static const notificationsRoute = '/notifications'; // todo
   static const manageSubscriptionRoute = '/auth/manage-subscription'; // todo
-  static const unsupportedDeviceRoute = '/states/unsupported-device';
-  static const noInternetRoute = '/states/no-internet';
+  static const unsupportedDeviceRoute = '/states/unsupported-device'; // todo
+  static const noInternetRoute = '/states/no-internet'; // todo
 }

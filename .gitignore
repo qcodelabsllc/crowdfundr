@@ -1,4 +1,31 @@
+# generated files
+**/.env
+**/.env.*
+**/target/
+**/node_modules/
+**/.idea/
+**/.vscode/
+**/dist/
+**/build/
+**/coverage/
+**/out/
+**/logs/
+**/tmp/
+
+# misc
+**/*.jks
 **/*.iml
-.idea/
-**/*.env
+**/*.lock
+
+# secrets
+**/secrets.plist
+**/key.properties
+/img.png
+
+# deployment
+**/fly.toml
+**/.dockerignore
+
+# generated resources
+microservices/groups/icons/
 IDEA.md

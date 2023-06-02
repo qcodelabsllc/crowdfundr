@@ -17,11 +17,11 @@ message ProjectMember {
 // RPC service definition for project-related events
 service ProjectService {
   // Event triggered when a new project is created
-  rpc ProjectCreated(Project) returns (google.protobuf.Empty) {}
+  rpc ProjectCreated(Project) returns (google.protobuf.Empty);
 
   // Event triggered when a project is updated
-  rpc ProjectUpdated(Project) returns (google.protobuf.Empty) {}
+  rpc ProjectUpdated(Project) returns (google.protobuf.Empty);
 
   // Event triggered when a new user is added to a project
-  rpc UserAddedToProject(ProjectMember) returns (google.protobuf.Empty) {}
+  rpc UserAddedToProject(ProjectMember) returns (google.protobuf.Empty);
 }

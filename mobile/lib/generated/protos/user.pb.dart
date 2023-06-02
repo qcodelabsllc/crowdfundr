@@ -14,6 +14,7 @@ class User extends $pb.GeneratedMessage {
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'username')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'email')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'avatar')
     ..hasRequiredFields = false
   ;
 
@@ -22,6 +23,7 @@ class User extends $pb.GeneratedMessage {
     $core.String? id,
     $core.String? username,
     $core.String? email,
+    $core.String? avatar,
   }) {
     final _result = create();
     if (id != null) {
@@ -32,6 +34,9 @@ class User extends $pb.GeneratedMessage {
     }
     if (email != null) {
       _result.email = email;
+    }
+    if (avatar != null) {
+      _result.avatar = avatar;
     }
     return _result;
   }
@@ -82,5 +87,14 @@ class User extends $pb.GeneratedMessage {
   $core.bool hasEmail() => $_has(2);
   @$pb.TagNumber(3)
   void clearEmail() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get avatar => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set avatar($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasAvatar() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearAvatar() => clearField(4);
 }
 
