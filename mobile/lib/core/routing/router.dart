@@ -81,12 +81,12 @@ final class AppRouterConfig {
 sealed class AppRouter {
   static const initialRoute = '/';
   static const tutorialRoute = '/walkthrough';
-  static const welcomeRoute = '/welcome';
-  static const homeRoute = '/home';
-  static const signUpRoute = '/auth/sign-up';
-  static const signInWithRoute = '/auth/sign-in';
-  static const resetPasswordRoute = '/auth/sign-in/reset-password';
-  static const phoneVerificationRoute = '/auth/phone-verification';
+  static const welcomeRoute = '/welcome'; // todo
+  static const homeRoute = '/home'; // todo
+  static const signUpRoute = '/auth/sign-up'; // todo
+  static const signInWithRoute = '/auth/sign-in'; // todo
+  static const resetPasswordRoute = '/auth/sign-in/reset-password'; // todo
+  static const phoneVerificationRoute = '/auth/phone-verification'; // todo
   static const projectDetailsRoute = '/projects/details'; // todo
   static const donateRoute = '/donations/project'; // todo
   static const editProfileRoute = '/edit-profile'; // todo

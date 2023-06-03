@@ -1,7 +1,7 @@
 part of '../home.dart';
 
 class _SettingsTab extends StatefulWidget {
-  const _SettingsTab({super.key});
+  const _SettingsTab();
 
   @override
   State<_SettingsTab> createState() => _SettingsTabState();
@@ -9,7 +9,5 @@ class _SettingsTab extends StatefulWidget {
 
 class _SettingsTabState extends State<_SettingsTab> {
   @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
+  Widget build(BuildContext context) => const CustomScrollView();
 }
