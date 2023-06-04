@@ -15,13 +15,17 @@ mkdir -p "$MOBILE_DIR/lib/generated/protos"
 mkdir -p "$CORE_SERVER_DIR/gen"
 mkdir -p "$AUTH_SERVER_DIR/gen"
 
+# generate for auth-server
+protoc -I=$PROTO_PATH --go_out=$AUTH_SERVER_DIR/gen --go_opt=paths=source_relative \
+  --go-grpc_out=$AUTH_SERVER_DIR/gen --go-grpc_opt=paths=source_relative \
+  user.proto user_service.proto
+
 # generate for core-server
 protoc -I=$PROTO_PATH --go_out=$CORE_SERVER_DIR/gen --go_opt=paths=source_relative \
   --go-grpc_out=$CORE_SERVER_DIR/gen --go-grpc_opt=paths=source_relative \
   $(find $PROTO_PATH -iname "*.proto")
 
 # generate for flutter using dart
-protoc -I=$PROTO_PATH \
-  --dart_out=grpc:$MOBILE_OUT_DIR \
-  project.proto
+#protoc -I=$PROTO_PATH \
+#  --dart_out=grpc:$MOBILE_OUT_DIR \
 #  $(find $PROTO_PATH -iname "*.proto")

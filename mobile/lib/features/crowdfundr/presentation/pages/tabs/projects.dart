@@ -28,7 +28,7 @@ class _ProjectsTabState extends State<_ProjectsTab> {
           ),
           padding: EdgeInsets.fromLTRB(
               20, context.mediaQuery.padding.top + 12, 20, 24),
-          child: Column(
+          child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 

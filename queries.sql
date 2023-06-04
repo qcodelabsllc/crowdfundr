@@ -1,14 +1,23 @@
-CREATE TABLE users
+CREATE TABLE IF NOT EXISTS users
 (
     id         uuid      DEFAULT gen_random_uuid() PRIMARY KEY,
     username   VARCHAR(50) UNIQUE      NOT NULL,
     email      VARCHAR(255) UNIQUE     NOT NULL,
+    avatar     VARCHAR(255)            NOT NULL DEFAULT 'https://cdn.dribbble.com/userupload/4397436/file/original-587958fcb52f62a3eb7f35c0d07bd983.jpg?compress=1&resize=2048x1536',
     password   VARCHAR(255)            NOT NULL,
     created_at TIMESTAMP DEFAULT now() NOT NULL,
     updated_at TIMESTAMP DEFAULT now() NOT NULL
 );
 
-CREATE TABLE projects
+CREATE TABLE IF NOT EXISTS categories
+(
+    id         VARCHAR(50) PRIMARY KEY,
+    name       VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP   DEFAULT now() NOT NULL,
+    updated_at TIMESTAMP   DEFAULT now() NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS projects
 (
     id               uuid PRIMARY KEY        DEFAULT gen_random_uuid(),
     title            VARCHAR(255)   NOT NULL,
@@ -27,7 +36,7 @@ CREATE TABLE projects
     updated_at       TIMESTAMP               DEFAULT now() NOT NULL
 );
 
-CREATE TABLE donations
+CREATE TABLE IF NOT EXISTS donations
 (
     id         uuid PRIMARY KEY        DEFAULT gen_random_uuid(),
     amount     DECIMAL(10, 2) NOT NULL,
@@ -37,7 +46,7 @@ CREATE TABLE donations
     updated_at TIMESTAMP      NOT NULL DEFAULT now()
 );
 
-CREATE TABLE project_members
+CREATE TABLE IF NOT EXISTS project_members
 (
     id         uuid PRIMARY KEY   DEFAULT gen_random_uuid(),
     user_id    uuid      NOT NULL REFERENCES users (id) ON DELETE CASCADE,
@@ -46,7 +55,7 @@ CREATE TABLE project_members
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-CREATE TABLE disbursements
+CREATE TABLE IF NOT EXISTS disbursements
 (
     id         uuid PRIMARY KEY        DEFAULT gen_random_uuid(),
     amount     DECIMAL(10, 2) NOT NULL,
@@ -61,8 +70,8 @@ ALTER TABLE projects
     ALTER COLUMN updated_at SET DEFAULT now();
 
 -- alter the projects table to add a foreign key to the categories table
--- ALTER TABLE projects
---     ADD CONSTRAINT projects_category_fkey FOREIGN KEY (category) REFERENCES categories (id);
+ALTER TABLE projects
+    ADD CONSTRAINT projects_category_fkey FOREIGN KEY (category) REFERENCES categories (id);
 
 -- indexes on users table
 CREATE INDEX users_username_idx ON users (username);
@@ -181,7 +190,7 @@ EXECUTE FUNCTION update_project_amount_disbursed();
 alter user crowdfundr with password 'crowdfundr';
 
 --  grant all privileges on all tables in schema to crowdfundr
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA crowdfundr_schema TO crowdfundr;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO crowdfundr;
 
 -- create a procedure to get user by email
 CREATE OR REPLACE PROCEDURE get_user_by_email(
@@ -189,14 +198,15 @@ CREATE OR REPLACE PROCEDURE get_user_by_email(
     OUT _id uuid,
     OUT _email VARCHAR,
     OUT _username VARCHAR,
+    OUT _avatar_url VARCHAR,
     OUT _created_at TIMESTAMP
 )
     LANGUAGE plpgsql
 AS
 $$
 BEGIN
-    SELECT id, email, username, created_at
-    INTO _id, _email, _username, _created_at
+    SELECT id, email, username, created_at, avatar
+    INTO _id, _email, _username, _created_at, _avatar_url
     FROM users
     WHERE email = email_address;
 END;
@@ -478,17 +488,17 @@ END;
 $$;
 
 -- create a procedure to create a category
--- CREATE OR REPLACE PROCEDURE create_category(
---     category_name VARCHAR
--- )
---     LANGUAGE plpgsql
--- AS
--- $$
--- BEGIN
---     INSERT INTO categories (name)
---     VALUES (category_name);
--- END;
--- $$;
+CREATE OR REPLACE PROCEDURE create_category(
+    category_name VARCHAR
+)
+    LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    INSERT INTO categories (name)
+    VALUES (category_name);
+END;
+$$;
 
 -- create a procedure to create a new user by email, username and password
 CREATE OR REPLACE PROCEDURE create_user(
@@ -656,3 +666,14 @@ BEGIN
       AND password = user_password;
 END;
 $$;
+
+-- create a table to store access & refresh tokens
+CREATE TABLE IF NOT EXISTS tokens (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    access_token VARCHAR NOT NULL,
+    refresh_token VARCHAR NOT NULL,
+    user_id uuid NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT now(),
+    updated_at TIMESTAMP NOT NULL DEFAULT now(),
+    FOREIGN KEY (user_id) REFERENCES users (id)
+);

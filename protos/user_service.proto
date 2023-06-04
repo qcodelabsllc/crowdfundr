@@ -10,24 +10,48 @@ import "user.proto";
 
 // Definition for the User entity
 service UserService {
-  // create a new user using create_user
-  rpc CreateUser(CreateUserRequest) returns (User);
+  // create a new user using create_user (requires public token)
+  rpc RegisterUser(RegisterUserRequest) returns (google.protobuf.StringValue);
 
-  // get a user by id
+  // login a user using login_user (requires public token)
+  rpc LoginUser(LoginUserRequest) returns (google.protobuf.StringValue);
+
+  // get a user by id (requires private token)
   rpc GetUser(google.protobuf.StringValue) returns (User);
 
-  // get a user by email
+  // get the current user (requires private token)
+  rpc GetCurrentUser(google.protobuf.Empty) returns (User);
+
+  // get a user by email (requires private token)
   rpc GetUserByEmail(google.protobuf.StringValue) returns (User);
 
-  // update user
+  // update user (requires private token)
   rpc UpdateUser(User) returns (User);
 
-  // delete user
+  // delete user (requires private token)
   rpc DeleteUser(google.protobuf.StringValue) returns (google.protobuf.Empty);
+
+  // logout user (requires private token)
+  rpc LogoutUser(google.protobuf.Empty) returns (google.protobuf.Empty);
+
+  // request public token
+  // (all calls using this token need: `x-pub-key` metadata with token signature from response + Bearer token)
+  rpc RequestPublicToken(google.protobuf.Empty) returns (PublicTokenResponse);
 }
 
-message CreateUserRequest {
+message RegisterUserRequest {
   string username = 1;
   string email = 2;
   string password = 3;
+  optional string avatar_url = 4;
+}
+
+message LoginUserRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message PublicTokenResponse {
+  string public_token = 1;
+  bytes public_token_signature = 2;
 }

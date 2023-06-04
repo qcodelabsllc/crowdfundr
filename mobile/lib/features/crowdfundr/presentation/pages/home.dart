@@ -9,7 +9,6 @@ import 'package:mobile/core/utils/extensions.dart';
 import 'package:mobile/core/utils/sample.data.dart';
 import 'package:mobile/features/crowdfundr/presentation/widgets/project.tile.dart';
 import 'package:mobile/generated/assets.dart';
-import 'package:mobile/generated/protos/category.pb.dart';
 import 'package:mobile/generated/protos/user.pb.dart';
 import 'package:shared_utils/shared_utils.dart';
 

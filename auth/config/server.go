@@ -1,8 +1,8 @@
 package config
 
 import (
-	pb "github.com/qcodelabsllc/crowdfundr/core/gen"
-	svc "github.com/qcodelabsllc/crowdfundr/core/services"
+	pb "github.com/qcodelabsllc/crowdfundr/auth/gen"
+	svc "github.com/qcodelabsllc/crowdfundr/auth/services"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
@@ -15,14 +15,13 @@ func StartServer() {
 	grpcServer := grpc.NewServer()
 
 	// register services
-	pb.RegisterProjectServiceServer(grpcServer, svc.NewProjectServiceImpl(CoreDb))
-	pb.RegisterDonationServiceServer(grpcServer, svc.NewDonationServiceImpl(CoreDb))
+	pb.RegisterUserServiceServer(grpcServer, svc.NewUserServiceImpl(UserDb))
 
 	// setup reflection
 	reflection.Register(grpcServer)
 
 	// define address to listen on
-	address := "[::]:42023" // april 2023
+	address := "[::]:62023" // april 2023
 
 	// listen on address
 	if listener, err := net.Listen("tcp", address); err != nil {

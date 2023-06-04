@@ -3,13 +3,13 @@ package config
 import (
 	"context"
 	"fmt"
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v5"
 	"log"
 	"os"
 )
 
-// CoreDb global instance of postgresql database connection
-var CoreDb *pgx.Conn
+// UserDb global instance of postgresql database connection
+var UserDb *pgx.Conn
 
 // InitDatabase initializes the database connection
 func InitDatabase() {
@@ -37,11 +37,12 @@ func InitDatabase() {
 	} else {
 		fmt.Println("Connected to PostgreSQL database!")
 		// Set global database connection
-		CoreDb = conn
+		UserDb = conn
 	}
 
 	// Check if connection was successful
-	if err := CoreDb.Ping(context.Background()); err != nil {
+	if err := UserDb.Ping(context.Background()); err != nil {
 		log.Fatal("unable to ping database")
 	}
+
 }
