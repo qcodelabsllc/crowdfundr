@@ -3,6 +3,7 @@ package config
 import (
 	pb "github.com/qcodelabsllc/crowdfundr/auth/gen"
 	svc "github.com/qcodelabsllc/crowdfundr/auth/services"
+	"github.com/qcodelabsllc/crowdfundr/auth/utils"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
@@ -12,7 +13,8 @@ import (
 // StartServer starts the gRPC server
 func StartServer() {
 	// create grpc server
-	grpcServer := grpc.NewServer()
+	grpcServer := grpc.NewServer(grpc.UnaryInterceptor(utils.ValidatePublicTokenUnaryInterceptor),
+		grpc.StreamInterceptor(utils.ValidatePublicTokenStreamInterceptor))
 
 	// register services
 	pb.RegisterUserServiceServer(grpcServer, svc.NewUserServiceImpl(UserDb))
@@ -21,7 +23,7 @@ func StartServer() {
 	reflection.Register(grpcServer)
 
 	// define address to listen on
-	address := "[::]:62023" // april 2023
+	address := "[::]:62023" // june (6) 2023
 
 	// listen on address
 	if listener, err := net.Listen("tcp", address); err != nil {

@@ -204,6 +204,10 @@ func GetTokenFromHeader(ctx context.Context) (*string, error) {
 		return nil, errors.New("unable to get metadata")
 	}
 
+	if md.Get("authorization") == nil || len(md.Get("authorization")) == 0 {
+		return nil, errors.New("authorization header is missing")
+	}
+
 	// get authorization header
 	header := md.Get("authorization")[0]
 
