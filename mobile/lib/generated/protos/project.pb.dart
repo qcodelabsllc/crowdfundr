@@ -9,6 +9,13 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+import 'user.pb.dart' as $0;
+import 'package:protobuf_google/protobuf_google.dart' as $1;
+
+import 'project.pbenum.dart';
+
+export 'project.pbenum.dart';
+
 class Project extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Project', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'crowdfunding'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
@@ -17,12 +24,15 @@ class Project extends $pb.GeneratedMessage {
     ..a<$core.double>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'goalAmount', $pb.PbFieldType.OF)
     ..a<$core.double>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'amountRaised', $pb.PbFieldType.OF)
     ..a<$core.double>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'amountDisbursed', $pb.PbFieldType.OF)
-    ..aOS(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'status')
+    ..e<ProjectStatus>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: ProjectStatus.PENDING, valueOf: ProjectStatus.valueOf, enumValues: ProjectStatus.values)
     ..a<$core.int>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'backers', $pb.PbFieldType.O3)
-    ..aOS(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId')
-    ..aOS(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createdAt')
-    ..aOS(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'updatedAt')
+    ..aOM<$0.User>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'projectOwner', subBuilder: $0.User.create)
+    ..aOM<$1.Timestamp>(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createdAt', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'updatedAt', subBuilder: $1.Timestamp.create)
     ..aOS(12, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'categoryId')
+    ..aOS(13, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'imageUrl')
+    ..aOM<$1.Timestamp>(14, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'startDate', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(15, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'endDate', subBuilder: $1.Timestamp.create)
     ..hasRequiredFields = false
   ;
 
@@ -34,12 +44,15 @@ class Project extends $pb.GeneratedMessage {
     $core.double? goalAmount,
     $core.double? amountRaised,
     $core.double? amountDisbursed,
-    $core.String? status,
+    ProjectStatus? status,
     $core.int? backers,
-    $core.String? userId,
-    $core.String? createdAt,
-    $core.String? updatedAt,
+    $0.User? projectOwner,
+    $1.Timestamp? createdAt,
+    $1.Timestamp? updatedAt,
     $core.String? categoryId,
+    $core.String? imageUrl,
+    $1.Timestamp? startDate,
+    $1.Timestamp? endDate,
   }) {
     final _result = create();
     if (id != null) {
@@ -66,8 +79,8 @@ class Project extends $pb.GeneratedMessage {
     if (backers != null) {
       _result.backers = backers;
     }
-    if (userId != null) {
-      _result.userId = userId;
+    if (projectOwner != null) {
+      _result.projectOwner = projectOwner;
     }
     if (createdAt != null) {
       _result.createdAt = createdAt;
@@ -77,6 +90,15 @@ class Project extends $pb.GeneratedMessage {
     }
     if (categoryId != null) {
       _result.categoryId = categoryId;
+    }
+    if (imageUrl != null) {
+      _result.imageUrl = imageUrl;
+    }
+    if (startDate != null) {
+      _result.startDate = startDate;
+    }
+    if (endDate != null) {
+      _result.endDate = endDate;
     }
     return _result;
   }
@@ -156,9 +178,9 @@ class Project extends $pb.GeneratedMessage {
   void clearAmountDisbursed() => clearField(6);
 
   @$pb.TagNumber(7)
-  $core.String get status => $_getSZ(6);
+  ProjectStatus get status => $_getN(6);
   @$pb.TagNumber(7)
-  set status($core.String v) { $_setString(6, v); }
+  set status(ProjectStatus v) { setField(7, v); }
   @$pb.TagNumber(7)
   $core.bool hasStatus() => $_has(6);
   @$pb.TagNumber(7)
@@ -174,31 +196,37 @@ class Project extends $pb.GeneratedMessage {
   void clearBackers() => clearField(8);
 
   @$pb.TagNumber(9)
-  $core.String get userId => $_getSZ(8);
+  $0.User get projectOwner => $_getN(8);
   @$pb.TagNumber(9)
-  set userId($core.String v) { $_setString(8, v); }
+  set projectOwner($0.User v) { setField(9, v); }
   @$pb.TagNumber(9)
-  $core.bool hasUserId() => $_has(8);
+  $core.bool hasProjectOwner() => $_has(8);
   @$pb.TagNumber(9)
-  void clearUserId() => clearField(9);
+  void clearProjectOwner() => clearField(9);
+  @$pb.TagNumber(9)
+  $0.User ensureProjectOwner() => $_ensure(8);
 
   @$pb.TagNumber(10)
-  $core.String get createdAt => $_getSZ(9);
+  $1.Timestamp get createdAt => $_getN(9);
   @$pb.TagNumber(10)
-  set createdAt($core.String v) { $_setString(9, v); }
+  set createdAt($1.Timestamp v) { setField(10, v); }
   @$pb.TagNumber(10)
   $core.bool hasCreatedAt() => $_has(9);
   @$pb.TagNumber(10)
   void clearCreatedAt() => clearField(10);
+  @$pb.TagNumber(10)
+  $1.Timestamp ensureCreatedAt() => $_ensure(9);
 
   @$pb.TagNumber(11)
-  $core.String get updatedAt => $_getSZ(10);
+  $1.Timestamp get updatedAt => $_getN(10);
   @$pb.TagNumber(11)
-  set updatedAt($core.String v) { $_setString(10, v); }
+  set updatedAt($1.Timestamp v) { setField(11, v); }
   @$pb.TagNumber(11)
   $core.bool hasUpdatedAt() => $_has(10);
   @$pb.TagNumber(11)
   void clearUpdatedAt() => clearField(11);
+  @$pb.TagNumber(11)
+  $1.Timestamp ensureUpdatedAt() => $_ensure(10);
 
   @$pb.TagNumber(12)
   $core.String get categoryId => $_getSZ(11);
@@ -208,5 +236,36 @@ class Project extends $pb.GeneratedMessage {
   $core.bool hasCategoryId() => $_has(11);
   @$pb.TagNumber(12)
   void clearCategoryId() => clearField(12);
+
+  @$pb.TagNumber(13)
+  $core.String get imageUrl => $_getSZ(12);
+  @$pb.TagNumber(13)
+  set imageUrl($core.String v) { $_setString(12, v); }
+  @$pb.TagNumber(13)
+  $core.bool hasImageUrl() => $_has(12);
+  @$pb.TagNumber(13)
+  void clearImageUrl() => clearField(13);
+
+  @$pb.TagNumber(14)
+  $1.Timestamp get startDate => $_getN(13);
+  @$pb.TagNumber(14)
+  set startDate($1.Timestamp v) { setField(14, v); }
+  @$pb.TagNumber(14)
+  $core.bool hasStartDate() => $_has(13);
+  @$pb.TagNumber(14)
+  void clearStartDate() => clearField(14);
+  @$pb.TagNumber(14)
+  $1.Timestamp ensureStartDate() => $_ensure(13);
+
+  @$pb.TagNumber(15)
+  $1.Timestamp get endDate => $_getN(14);
+  @$pb.TagNumber(15)
+  set endDate($1.Timestamp v) { setField(15, v); }
+  @$pb.TagNumber(15)
+  $core.bool hasEndDate() => $_has(14);
+  @$pb.TagNumber(15)
+  void clearEndDate() => clearField(15);
+  @$pb.TagNumber(15)
+  $1.Timestamp ensureEndDate() => $_ensure(14);
 }
 

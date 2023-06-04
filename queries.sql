@@ -522,8 +522,6 @@ BEGIN
 END;
 $$;
 
-
-
 -- create a procedure to create a new project. The backers must be increase by 1 since the user who created the project is also a backer
 CREATE OR REPLACE PROCEDURE create_project(
     project_title VARCHAR,

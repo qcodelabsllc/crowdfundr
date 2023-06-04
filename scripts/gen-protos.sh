@@ -23,5 +23,5 @@ protoc -I=$PROTO_PATH --go_out=$CORE_SERVER_DIR/gen --go_opt=paths=source_relati
 # generate for flutter using dart
 protoc -I=$PROTO_PATH \
   --dart_out=grpc:$MOBILE_OUT_DIR \
-  user.proto
+  project.proto
 #  $(find $PROTO_PATH -iname "*.proto")

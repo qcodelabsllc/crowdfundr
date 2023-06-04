@@ -147,13 +147,16 @@ class _StatsTabState extends State<_StatsTab> {
                         position: index,
                         duration: kDurationFast,
                         delay: kDurationSlow,
-                        child: const SlideAnimation(
+                        child: SlideAnimation(
                           horizontalOffset: 100,
-                          child: FadeInAnimation(child: ProjectTile()),
+                          child: FadeInAnimation(
+                            child: ProjectTile(project: kSampleProjects[index]),
+                          ),
                         ),
                       ),
                       separatorBuilder: (_, __) => const SizedBox(width: 20),
-                      itemCount: 5,
+                      // @todo replace with actual projects
+                      itemCount: kSampleProjects.length,
                     ).fillMaxHeight(context, 0.35).fillMaxWidth(context),
                   ),
                 ],
@@ -199,18 +202,12 @@ class CategoryPersistentHeader extends SliverPersistentHeaderDelegate {
   CategoryPersistentHeader(this.ctx);
 
   final BuildContext ctx;
-  final _sampleCategories = <Category>[
-        Category(id: '1', name: 'Education'),
-        Category(id: '2', name: 'Fundraising'),
-        Category(id: '3', name: 'Disasters'),
-        Category(id: '4', name: 'Health'),
-      ],
-      _icons = <IconData>[
-        TablerIcons.school,
-        TablerIcons.wallet,
-        TablerIcons.activity_heartbeat,
-        TablerIcons.heart,
-      ];
+  final _icons = <IconData>[
+    Icons.supervised_user_circle_outlined,
+    TablerIcons.wallet,
+    TablerIcons.users,
+    TablerIcons.heart,
+  ];
 
   @override
   Widget build(
@@ -235,35 +232,40 @@ class CategoryPersistentHeader extends SliverPersistentHeaderDelegate {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: List.generate(
-                _sampleCategories.length,
-                (index) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: context.width * 0.1,
-                      width: context.width * 0.1,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: context.colorScheme.primary
-                              .generateColorShades(2),
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomCenter,
+                kSampleCategories.length,
+                (index) => GestureDetector(
+                  onTap: () => context.navigator.pushNamed(
+                      AppRouter.categoryDetailsRoute,
+                      arguments: kSampleCategories[index]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: context.width * 0.1,
+                        width: context.width * 0.1,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: context.colorScheme.primary
+                                .generateColorShades(2),
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomCenter,
+                          ),
+                          borderRadius: BorderRadius.circular(40),
                         ),
-                        borderRadius: BorderRadius.circular(40),
+                        alignment: Alignment.center,
+                        child: Icon(_icons[index],
+                                color: context.colorScheme.onPrimary)
+                            .bottom(4),
                       ),
-                      alignment: Alignment.center,
-                      child: Icon(_icons[index],
-                              color: context.colorScheme.onPrimary)
-                          .bottom(4),
-                    ),
-                    _sampleCategories[index]
-                        .name
-                        .caption(context,
-                            color: context.colorScheme.onBackground,
-                            weight: FontWeight.w600)
-                        .top(8),
-                  ],
+                      kSampleCategories[index]
+                          .name
+                          .caption(context,
+                              color: context.colorScheme.onBackground,
+                              weight: FontWeight.w600)
+                          .top(8),
+                    ],
+                  ),
                 ),
               ),
             ).top(12),

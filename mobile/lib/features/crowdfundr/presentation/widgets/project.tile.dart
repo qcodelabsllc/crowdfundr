@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/routing/router.dart';
 import 'package:mobile/core/utils/extensions.dart';
+import 'package:mobile/generated/protos/project.pb.dart';
 import 'package:shared_utils/shared_utils.dart';
 
 /// Project tile widget
 /// @todo: pass project data to widget
 class ProjectTile extends StatefulWidget {
-  const ProjectTile({super.key});
+  final Project project;
+
+  const ProjectTile({super.key, required this.project});
 
   @override
   State<ProjectTile> createState() => _ProjectTileState();
 }
 
 class _ProjectTileState extends State<ProjectTile> {
+  String get _displayPercentage =>
+      '${(_calculateProgress * 100).toStringAsFixed(2)}%';
+
   @override
   Widget build(BuildContext context) => GestureDetector(
-        // @todo: replace with project data
-        onTap: () => context.navigator
-            .pushNamed(AppRouter.projectDetailsRoute, arguments: 'project id'),
+        onTap: () => context.navigator.pushNamed(AppRouter.projectDetailsRoute,
+            arguments: widget.project),
         child: Container(
           width: context.width * 0.75,
           clipBehavior: Clip.antiAlias,
@@ -38,9 +43,8 @@ class _ProjectTileState extends State<ProjectTile> {
                       bottomLeft: Radius.circular(20),
                       bottomRight: Radius.circular(20)),
                 ),
-                // @todo: replace with project image
-                child: 'https://picsum.photos/200/300'
-                    .asNetworkImage(fit: BoxFit.cover),
+                child:
+                    widget.project.imageUrl.asNetworkImage(fit: BoxFit.cover),
               ),
 
               // project details
@@ -70,17 +74,15 @@ class _ProjectTileState extends State<ProjectTile> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // @todo: replace with project owner's name
                       context.localizer
-                          .projectBy('Quabynah Charity Fund')
+                          .projectBy(widget.project.projectOwner.username)
                           .caption(context,
                               color: context.colorScheme.primary,
                               weight: FontWeight.w600,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               emphasis: kEmphasisMedium),
-                      // @todo: replace with project name
-                      'Urgent need of funds for the construction of a new mosque in Accra Central'
+                      widget.project.title
                           .capitalize()
                           .subtitle2(context,
                               weight: FontWeight.w600,
@@ -99,8 +101,7 @@ class _ProjectTileState extends State<ProjectTile> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20)),
                               child: LinearProgressIndicator(
-                                // @todo: replace with project progress
-                                value: 0.67,
+                                value: _calculateProgress,
                                 minHeight: 8,
                                 backgroundColor: context.colorScheme.primary
                                     .withOpacity(kEmphasisLow),
@@ -112,19 +113,18 @@ class _ProjectTileState extends State<ProjectTile> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                // @todo: replace with project amount contributed
-                                '\$ 12,450'.subtitle2(context,
-                                    weight: FontWeight.w600,
-                                    color: context.colorScheme.primary),
+                                '\$${widget.project.amountRaised} ($_displayPercentage)'
+                                    .subtitle2(context,
+                                        weight: FontWeight.w600,
+                                        color: context.colorScheme.primary),
                                 '21 days left'.subtitle2(context,
                                     color: context.colorScheme.primary),
                               ],
                             ).top(8),
                             GestureDetector(
-                              // @todo: replace with project data
                               onTap: () => context.navigator.pushNamed(
                                   AppRouter.donateRoute,
-                                  arguments: 'project id'),
+                                  arguments: widget.project),
                               child: Container(
                                 margin:
                                     const EdgeInsets.fromLTRB(16, 12, 16, 0),
@@ -150,4 +150,8 @@ class _ProjectTileState extends State<ProjectTile> {
           ),
         ),
       );
+
+  /// Calculate project progress
+  double get _calculateProgress =>
+      widget.project.amountRaised / widget.project.goalAmount;
 }

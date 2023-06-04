@@ -95,4 +95,5 @@ sealed class AppRouter {
   static const manageSubscriptionRoute = '/auth/manage-subscription'; // todo
   static const unsupportedDeviceRoute = '/states/unsupported-device'; // todo
   static const noInternetRoute = '/states/no-internet'; // todo
+  static const categoryDetailsRoute = '/category/details'; // todo
 }

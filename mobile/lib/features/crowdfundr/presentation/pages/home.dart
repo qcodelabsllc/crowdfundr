@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:mobile/core/routing/router.dart';
 import 'package:mobile/core/utils/constants.dart';
 import 'package:mobile/core/utils/extensions.dart';
+import 'package:mobile/core/utils/sample.data.dart';
 import 'package:mobile/features/crowdfundr/presentation/widgets/project.tile.dart';
 import 'package:mobile/generated/assets.dart';
 import 'package:mobile/generated/protos/category.pb.dart';
@@ -30,8 +31,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _navIcons = [
     HeroIcons.rectangleStack, // home
-    HeroIcons.userGroup, // donations
     HeroIcons.rocketLaunch, // projects
+    HeroIcons.userGroup, // donations
     HeroIcons.userCircle, // settings
   ];
   var _currentIndex = 0;
@@ -42,8 +43,8 @@ class _HomePageState extends State<HomePage> {
           index: _currentIndex,
           children: const [
             _StatsTab(),
-            _DonationsTab(),
             _ProjectsTab(),
+            _DonationsTab(),
             _SettingsTab(),
           ],
         ),
