@@ -54,17 +54,19 @@ class _TutorialPageState extends State<TutorialPage> {
                   label: context.localizer.signInWithGoogle,
                   brandIcon: Assets.brandBrandGoogle),
               AuthButton(
-                  label: context.localizer.signInWithApple,
-                  brandIcon: context.isDarkMode
-                      ? Assets.brandBrandApple
-                      : Assets.brandBrandAppleLight),
+                label: context.localizer.signInWithApple,
+                outlined: false,
+                backgroundColor: context.colorScheme.onBackground,
+                foregroundColor: context.colorScheme.background,
+                onPressed: context.showFeatureUnderDevSheet,
+                brandIcon: Assets.brandBrandAppleLight,
+              ),
               AuthButton(
                   label: context.localizer.signInWithEmail,
                   brandIcon: Assets.brandBrandEmail,
-                  iconTint: context.colorScheme.onPrimary,
+                  foregroundColor: context.colorScheme.onBackground,
                   onPressed: () =>
                       context.navigator.pushNamed(AppRouter.signInWithRoute),
-                  outlined: false,
                   loading: _loading),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

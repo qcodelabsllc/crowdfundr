@@ -36,23 +36,24 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	// create a new user using create_user
+	// create a new user using create_user (requires public token)
 	RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*wrapperspb.StringValue, error)
-	// login a user using login_user
+	// login a user using login_user (requires public token)
 	LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*wrapperspb.StringValue, error)
-	// get a user by id
+	// get a user by id (requires private token)
 	GetUser(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (*User, error)
-	// get the current user
+	// get the current user (requires private token)
 	GetCurrentUser(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*User, error)
-	// get a user by email
+	// get a user by email (requires private token)
 	GetUserByEmail(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (*User, error)
-	// update user
+	// update user (requires private token)
 	UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
-	// delete user
+	// delete user (requires private token)
 	DeleteUser(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// logout user
+	// logout user (requires private token)
 	LogoutUser(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// request public token
+	// (all calls using this token need: `x-pub-key` metadata with token signature from response + Bearer token)
 	RequestPublicToken(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PublicTokenResponse, error)
 }
 
@@ -149,23 +150,24 @@ func (c *userServiceClient) RequestPublicToken(ctx context.Context, in *emptypb.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
-	// create a new user using create_user
+	// create a new user using create_user (requires public token)
 	RegisterUser(context.Context, *RegisterUserRequest) (*wrapperspb.StringValue, error)
-	// login a user using login_user
+	// login a user using login_user (requires public token)
 	LoginUser(context.Context, *LoginUserRequest) (*wrapperspb.StringValue, error)
-	// get a user by id
+	// get a user by id (requires private token)
 	GetUser(context.Context, *wrapperspb.StringValue) (*User, error)
-	// get the current user
+	// get the current user (requires private token)
 	GetCurrentUser(context.Context, *emptypb.Empty) (*User, error)
-	// get a user by email
+	// get a user by email (requires private token)
 	GetUserByEmail(context.Context, *wrapperspb.StringValue) (*User, error)
-	// update user
+	// update user (requires private token)
 	UpdateUser(context.Context, *User) (*User, error)
-	// delete user
+	// delete user (requires private token)
 	DeleteUser(context.Context, *wrapperspb.StringValue) (*emptypb.Empty, error)
-	// logout user
+	// logout user (requires private token)
 	LogoutUser(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	// request public token
+	// (all calls using this token need: `x-pub-key` metadata with token signature from response + Bearer token)
 	RequestPublicToken(context.Context, *emptypb.Empty) (*PublicTokenResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }

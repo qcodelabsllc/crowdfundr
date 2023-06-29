@@ -12,7 +12,7 @@ import (
 func ValidatePublicTokenUnaryInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 	log.Printf("FullMethod: %v", info.FullMethod)
 	switch info.FullMethod {
-	case "/crowdfunding.UserService/RequestPublicToken":
+	case "/crowdfunding.UserService/RequestPublicToken", "/grpc.reflection.v1alpha.ServerReflection/ServerReflectionInfo":
 		return handler(ctx, req)
 	case "/crowdfunding.UserService/RegisterUser", "/crowdfunding.UserService/LoginUser":
 		// get public token from header

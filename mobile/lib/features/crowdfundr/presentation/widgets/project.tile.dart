@@ -35,7 +35,7 @@ class _ProjectTileState extends State<ProjectTile> {
               // image background
               Container(
                 width: context.width,
-                height: context.height * 0.28,
+                height: context.height * 0.34,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   color: context.colorScheme.onPrimary,
@@ -64,7 +64,7 @@ class _ProjectTileState extends State<ProjectTile> {
                 bottom: 8,
                 left: 12,
                 right: 12,
-                height: context.height * 0.22,
+                height: context.height * 0.25,
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -144,7 +144,7 @@ class _ProjectTileState extends State<ProjectTile> {
                       ),
                     ],
                   ),
-                ).fillMaxHeight(context, 0.15),
+                ).fillMaxHeight(context, 0.18),
               ),
             ],
           ),

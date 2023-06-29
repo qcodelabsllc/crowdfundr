@@ -1,4 +1,6 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -27,33 +29,36 @@ class _CrowdfundrAppState extends State<CrowdfundrApp> {
   }
 
   @override
-  Widget build(BuildContext context) => DismissKeyboard(
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_) => _authCubit),
-            BlocProvider(create: (_) => _appStateCubit),
-          ],
-          child: BlocListener(
-            bloc: _appStateCubit,
-            listener: (context, state) {
-              if (!mounted) return;
+  Widget build(BuildContext context) => DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (_) => DismissKeyboard(
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => _authCubit),
+              BlocProvider(create: (_) => _appStateCubit),
+            ],
+            child: BlocListener(
+              bloc: _appStateCubit,
+              listener: (context, state) {
+                if (!mounted) return;
 
-              if (state is SuccessState<String>) {
-                _navigatorKey.currentState
-                    ?.pushNamedAndRemoveUntil(state.data, (route) => false);
-              }
-            },
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'Crowdfundr',
-              theme: context.useLightTheme,
-              darkTheme: context.useDarkTheme,
-              themeMode: ThemeMode.system,
-              onGenerateRoute: AppRouterConfig.setupRoutes,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              navigatorKey: _navigatorKey,
-              scrollBehavior: const CupertinoScrollBehavior(),
+                if (state is SuccessState<String>) {
+                  _navigatorKey.currentState
+                      ?.pushNamedAndRemoveUntil(state.data, (route) => false);
+                }
+              },
+              child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Crowdfundr',
+                theme: context.useLightTheme,
+                darkTheme: context.useDarkTheme,
+                themeMode: ThemeMode.system,
+                onGenerateRoute: AppRouterConfig.setupRoutes,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                navigatorKey: _navigatorKey,
+                scrollBehavior: const CupertinoScrollBehavior(),
+              ),
             ),
           ),
         ),

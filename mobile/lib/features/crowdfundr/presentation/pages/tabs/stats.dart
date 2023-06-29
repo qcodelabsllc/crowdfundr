@@ -99,23 +99,26 @@ class _StatsTabState extends State<_StatsTab> {
                     ),
 
                     // search bar
-                    GestureDetector(
-                      // @todo: replace with search feature
-                      onTap: context.showFeatureUnderDevSheet,
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 20),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          border: Border.all(
-                              color: context.colorScheme.onPrimary, width: 1.5),
-                          color: context.colorScheme.onPrimary
-                              .withOpacity(kEmphasisLow),
-                        ),
-                        child: context.localizer.searchHint.subtitle1(context,
-                            color: context.colorScheme.onPrimary),
-                      ).fillMaxWidth(context),
+                    Expanded(
+                      child: GestureDetector(
+                        // @todo: replace with search feature
+                        onTap: context.showFeatureUnderDevSheet,
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 20),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            border: Border.all(
+                                color: context.colorScheme.onPrimary,
+                                width: 1.5),
+                            color: context.colorScheme.onPrimary
+                                .withOpacity(kEmphasisLow),
+                          ),
+                          child: context.localizer.searchHint.subtitle1(context,
+                              color: context.colorScheme.onPrimary),
+                        ).fillMaxWidth(context),
+                      ).centered(),
                     ),
                   ],
                 ),
@@ -157,7 +160,7 @@ class _StatsTabState extends State<_StatsTab> {
                       separatorBuilder: (_, __) => const SizedBox(width: 20),
                       // @todo replace with actual projects
                       itemCount: kSampleProjects.length,
-                    ).fillMaxHeight(context, 0.35).fillMaxWidth(context),
+                    ).fillMaxHeight(context, 0.4).fillMaxWidth(context),
                   ),
                 ],
               ),
@@ -245,14 +248,8 @@ class CategoryPersistentHeader extends SliverPersistentHeaderDelegate {
                         height: context.width * 0.1,
                         width: context.width * 0.1,
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: context.colorScheme.primary
-                                .generateColorShades(2),
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomCenter,
-                          ),
-                          borderRadius: BorderRadius.circular(40),
-                        ),
+                            color: context.colorScheme.primary,
+                            borderRadius: BorderRadius.circular(40)),
                         alignment: Alignment.center,
                         child: Icon(_icons[index],
                                 color: context.colorScheme.onPrimary)

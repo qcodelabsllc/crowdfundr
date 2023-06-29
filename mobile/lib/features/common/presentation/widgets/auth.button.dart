@@ -7,8 +7,8 @@ class AuthButton extends StatelessWidget {
   final String brandIcon;
   final bool loading;
   final VoidCallback? onPressed;
-  final Color? tint;
-  final Color? iconTint;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
   final bool outlined;
 
   const AuthButton({
@@ -18,56 +18,56 @@ class AuthButton extends StatelessWidget {
     this.loading = false,
     this.outlined = true,
     this.onPressed,
-    this.tint,
-    this.iconTint,
+    this.backgroundColor,
+    this.foregroundColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: onPressed,
-        child: Container(
-          width: context.width,
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          margin: const EdgeInsets.only(top: 12),
-          decoration: BoxDecoration(
+    onTap: onPressed,
+    child: Container(
+      width: context.width,
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      margin: const EdgeInsets.only(top: 12),
+      decoration: BoxDecoration(
+        color: outlined
+            ? Colors.transparent
+            : backgroundColor ?? context.colorScheme.primary,
+        borderRadius:
+        (context.theme.buttonTheme.shape as RoundedRectangleBorder)
+            .borderRadius,
+        border: Border.all(
             color: outlined
-                ? Colors.transparent
-                : tint ?? context.colorScheme.primary,
-            borderRadius:
-                (context.theme.buttonTheme.shape as RoundedRectangleBorder)
-                    .borderRadius,
-            border: Border.all(
-                color: outlined
-                    ? context.colorScheme.onBackground
-                    : tint ?? context.colorScheme.primary),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (loading) ...{
-                CircularProgressIndicator.adaptive(
-                  strokeWidth: 2,
-                  valueColor:
-                      AlwaysStoppedAnimation(context.colorScheme.onBackground),
-                ).centered(),
-              } else ...{
-                SvgPicture.asset(
-                  brandIcon,
-                  height: 24,
-                  width: 24,
-                  colorFilter: iconTint == null
-                      ? null
-                      : ColorFilter.mode(
-                          outlined
-                              ? (iconTint ?? context.colorScheme.onBackground)
-                              : (iconTint ?? context.colorScheme.onPrimary),
-                          BlendMode.srcIn),
-                ).right(8),
-                label.button(context,
-                    color: outlined ? tint : context.colorScheme.onPrimary),
-              }
-            ],
-          ),
-        ),
-      );
+                ? context.colorScheme.onBackground
+                : backgroundColor ?? context.colorScheme.primary),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (loading) ...{
+            CircularProgressIndicator.adaptive(
+              strokeWidth: 2,
+              valueColor:
+              AlwaysStoppedAnimation(backgroundColor ?? context.colorScheme.primary),
+            ).centered(),
+          } else ...{
+            SvgPicture.asset(
+              brandIcon,
+              height: 24,
+              width: 24,
+              colorFilter: foregroundColor == null
+                  ? null
+                  : ColorFilter.mode(
+                  outlined
+                      ? (foregroundColor ?? context.colorScheme.onBackground)
+                      : (foregroundColor ?? context.colorScheme.onPrimary),
+                  BlendMode.srcIn),
+            ).right(8),
+            label.button(context,
+                color: outlined ? backgroundColor : foregroundColor ?? context.colorScheme.onPrimary),
+          }
+        ],
+      ),
+    ),
+  );
 }

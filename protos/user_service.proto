@@ -53,5 +53,5 @@ message LoginUserRequest {
 
 message PublicTokenResponse {
   string public_token = 1;
-  bytes public_token_signature = 2;
+  string public_token_signature = 2;
 }

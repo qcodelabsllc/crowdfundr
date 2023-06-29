@@ -141,12 +141,14 @@ ColorScheme useColorScheme([ThemeMode mode = ThemeMode.light]) =>
             onTertiaryContainer: Colors.white,
           )
         : const ColorScheme.dark(
-            background: Color(0xff2F3136),
+            background: Color(0xff121212),
             onBackground: Colors.white,
             secondary: Color(0xff241F21),
             onSecondary: Color(0xffEDE6DA),
-            primary: Color(0xff241F21),
-            onPrimary: Color(0xffEDE6DA),
+            // primary: Color(0xff241F21),
+            // onPrimary: Color(0xffEDE6DA),
+            primary: Color(0xffEDE6DA),
+            onPrimary: Color(0xff241F21),
             // surface: Color(0xff2F3136),
             surface: Color(0xff202225),
             onSurface: Colors.white,

@@ -2,10 +2,11 @@ package utils
 
 import (
 	"context"
-	"crypto/ed25519"
+	"encoding/hex"
 	"errors"
 	"github.com/google/uuid"
 	"github.com/o1egl/paseto"
+	"golang.org/x/crypto/ed25519"
 	"google.golang.org/grpc/metadata"
 	"log"
 	"os"
@@ -19,6 +20,7 @@ const (
 	payloadSub        = "crowdfundr-access-token"
 	publicPayloadType = "public_api_access"
 	publicPayloadSub  = "crowdfundr-public-access-token"
+	publicKeyHeader   = "x-crowdfundr-pub-key"
 )
 
 type TokenPayload struct {
@@ -28,7 +30,7 @@ type TokenPayload struct {
 
 type PublicTokenPayload struct {
 	Token     string
-	PublicKey []byte
+	PublicKey string
 }
 
 // CreateTokenForUser creates access & refresh tokens for a user
@@ -76,11 +78,7 @@ func CreateTokenForUser(uid string) (*TokenPayload, error) {
 
 // CreatePublicAccessTokenForUser creates a public access token for a user (used for public endpoints) and expires in 12 hours
 func CreatePublicAccessTokenForUser() (*PublicTokenPayload, error) {
-	// generate ed25519 key pair
-	publicKey, privateKey, err := ed25519.GenerateKey(nil)
-	if err != nil {
-		return nil, err
-	}
+	publicKey, privateKey := GenerateKey()
 
 	// create payload
 	now := time.Now()
@@ -99,16 +97,18 @@ func CreatePublicAccessTokenForUser() (*PublicTokenPayload, error) {
 	payload.Set("type", publicPayloadType)
 
 	// sign token
-	token, err := paseto.NewV2().Sign(privateKey, payload, nil)
+	token, err := paseto.NewV2().Sign(ed25519.PrivateKey(privateKey), payload, nil)
 	if err != nil {
 		log.Printf("Unable to sign token: %v", err)
 		return nil, errors.New("unable to create public key")
 	}
 
+	key := hex.EncodeToString(publicKey)
+	log.Printf("Public key: %v", key)
 	// create payload
 	publicPayload := &PublicTokenPayload{
 		Token:     token,
-		PublicKey: publicKey,
+		PublicKey: key,
 	}
 	return publicPayload, nil
 }
@@ -158,8 +158,13 @@ func ValidateToken(token string) bool {
 
 // ValidatePublicToken validates a public token
 func ValidatePublicToken(tokenPayload PublicTokenPayload) bool {
+	pubKey, err := hex.DecodeString(tokenPayload.PublicKey)
+	if err != nil {
+		return false
+	}
+
 	var payload paseto.JSONToken
-	if err := paseto.NewV2().Verify(tokenPayload.Token, tokenPayload.PublicKey, &payload, nil); err != nil {
+	if err := paseto.NewV2().Verify(tokenPayload.Token, ed25519.PublicKey(pubKey), &payload, nil); err != nil {
 		return false
 	}
 
@@ -248,11 +253,11 @@ func GetPublicTokenFromHeaderAndValidate(ctx context.Context) bool {
 	}
 
 	// get public key
-	publicKey := md.Get("x-pub-key")[0]
+	publicKey := md.Get(publicKeyHeader)[0]
 
 	payload := &PublicTokenPayload{
 		Token:     *token,
-		PublicKey: []byte(publicKey),
+		PublicKey: publicKey,
 	}
 
 	// validate token

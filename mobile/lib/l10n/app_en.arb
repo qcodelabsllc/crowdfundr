@@ -31,7 +31,7 @@
   "passwordHint": "Must be 6-72 characters long",
   "verificationCodeSent": "Verification code sent",
   "verificationCodeSentSubhead": "A verification code has been sent to the phone number. Please enter the code to continue",
-  "welcomeBackUser": "We're glad to have you back! 🎉",
+  "welcomeBackUser": "Welcome back, 👋🏽",
   "phoneNumber": "Phone Number",
   "phoneNumberHint": "e.g. 0244123456",
   "phone": "Phone",
